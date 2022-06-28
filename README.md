@@ -34,7 +34,7 @@ PowerStack JWT authentication server.
   - Phantom
   - Anchor
 
-## Dockerflie
+## Dockerfile
 
 ```
 # Build the image
