@@ -1,0 +1,39 @@
+version: '3'
+
+dotenv: ['.env']
+silent: true
+
+tasks:
+  build:
+    cmds:
+      - docker build -t powerstack-auth:local .
+
+  run:
+    cmds:
+      - docker run --name powerstack-auth --env-file .env -p 9901:9901 -d powerstack-auth:local
+
+  id:
+    cmds:
+      - docker ps -aqf "name=^powerstack-auth$"
+
+  stop:
+    cmds:
+      - docker stop powerstack-auth
+
+  start:
+    cmds:
+      - docker start powerstack-auth
+
+  restart:
+    cmds:
+      - docker restart powerstack-auth
+
+  kill:
+    cmds:
+      - docker kill powerstack-auth
+
+
+
+
+
+

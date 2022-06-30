@@ -34,20 +34,26 @@ PowerStack JWT authentication server.
   - Phantom
   - Anchor
 
-## Dockerfile
+## Docker
 
 ```
 # Build the image
-docker build -t powerstack_auth:local .
+docker build -t powerstack-auth:local .
 
 # Start a container
-docker run --env-file .env -p 3000:3000 -d powerstack_auth:local
+docker run --name powerstack-auth --env-file .env -p 9900:9900 -d powerstack-auth:local
 
 # Get container ID
-docker ps
+docker ps -aqf "name=^powerstack-auth$"
 
 # Print app output
-docker logs <container id>
+docker logs -f powerstack-auth
+
+# Stop, start, restart, kill
+docker stop powerstack-auth
+docker start powerstack-auth
+docker restart powerstack-auth
+docker kill powerstack-auth
 ```
 
 ## Credits
