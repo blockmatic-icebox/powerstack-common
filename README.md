@@ -41,7 +41,7 @@ PowerStack JWT authentication server.
 docker build -t powerstack-auth:local .
 
 # Start a container
-docker run --name powerstack-auth --env-file .env -p 9900:9900 -d powerstack-auth:local
+docker run --name powerstack-auth --env-file .env -p 4001:4001 -d powerstack-auth:local
 
 # Get container ID
 docker ps -aqf "name=^powerstack-auth$"
