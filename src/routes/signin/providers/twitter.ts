@@ -1,6 +1,6 @@
-import passport from 'passport'
-import Strategy from 'passport-twitter'
-import { config } from '../../../config'
+import passport from 'passport';
+import Strategy from 'passport-twitter';
+import { config } from '../../../config';
 
 export const TwitterProvider = () => {
   passport.use(
@@ -8,19 +8,19 @@ export const TwitterProvider = () => {
       {
         consumerKey: config.providers.twitter.consumer_key,
         consumerSecret: config.providers.twitter.consumer_secret,
-        callbackURL: config.providers.twitter.callback,
+        callbackURL: config.providers.twitter.callback_url,
       },
       (token, tokenSecret, profile, cb) => {
         // TODO: save on db profile.id token tokenSecret
-        console.log({ token, tokenSecret, profile })
-        return cb(null, profile)
-      },
-    ),
-  )
+        console.log({ token, tokenSecret, profile });
+        return cb(null, profile);
+      }
+    )
+  );
   passport.serializeUser((user, cb) => {
-    cb(null, user)
-  })
+    cb(null, user);
+  });
   passport.deserializeUser((obj, cb) => {
-    cb(null, obj)
-  })
-}
+    cb(null, obj);
+  });
+};

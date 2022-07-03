@@ -1,20 +1,20 @@
-import * as env from 'env-var'
+import * as env from 'env-var';
 
 interface Providers {
   twitter?: {
-    consumer_key: string
-    consumer_secret: string
-    callback: string
-    client_id: string
-  }
+    consumer_key: string;
+    consumer_secret: string;
+    callback_url: string;
+    client_id: string;
+  };
 }
 export interface Config {
-  hostname: string
-  port: number
-  server_secret: string
-  jwt_secret: string
-  jwt_token_expiration: number
-  providers: Providers
+  hostname: string;
+  port: number;
+  server_secret: string;
+  jwt_secret: string;
+  jwt_token_expiration: number;
+  providers: Providers;
 }
 
 export const config: Config = {
@@ -27,8 +27,8 @@ export const config: Config = {
     twitter: {
       consumer_key: env.get('TWITTER_CONSUMER_KEY').asString(),
       consumer_secret: env.get('TWITTER_CONSUMER_SECRET').asString(),
-      callback: env.get('TWITTER_CALLBACK').asString(),
+      callback_url: env.get('TWITTER_CALLBACK').asString(),
       client_id: env.get('TWITTER_CLIENT_ID').asString(),
     },
   },
-}
+};
