@@ -4,7 +4,7 @@ import session from 'express-session';
 import crypto from 'crypto';
 import { Issuer, generators, TokenSet } from 'openid-client';
 import axios from 'axios';
-import { getSessionToken } from '~/library';
+import { getSessionToken } from './../../library';
 const db = {}; // TODO: use prisma hasura etc
 
 const router = express.Router();
