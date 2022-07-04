@@ -8,7 +8,7 @@ router.post('/token/verify', (req, res, next) => {
   (async () => {
     const token = req.body.token;
     const decoded_token = verifyToken(token);
-    return res.send(decoded_token);
+    return res.send({ decoded_token });
   })().catch(next);
 });
 
