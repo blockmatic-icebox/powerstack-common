@@ -110,7 +110,6 @@ if (config.providers.twitter) {
         { code_verifier: codeVerifier, state },
         { exchangeBody: { client_id: config.providers.twitter.client_id } }
       );
-      console.log('received and validated tokens %j', token_set);
       req.session.token_set = token_set;
       if (typeof req.session.originalUrl != 'string') throw new Error('originalUrl must be a string');
       const token = await getTwiiterSessionToken(req.session.token_set);
@@ -138,7 +137,6 @@ if (config.providers.twitter) {
           },
         }
       );
-      console.log(data);
       req.session.token_set = data;
       return res.send('OK!');
     })().catch(next);
