@@ -4,6 +4,7 @@ import session from 'express-session';
 import crypto from 'crypto';
 import { Issuer, generators, TokenSet } from 'openid-client';
 import axios from 'axios';
+import { getSessionToken } from '~/library';
 const db = {}; // TODO: use prisma hasura etc
 
 const router = express.Router();
@@ -103,8 +104,13 @@ if (config.providers.twitter) {
       console.log('received and validated tokens %j', tokenSet);
       req.session.tokenSet = tokenSet;
       if (typeof req.session.originalUrl != 'string') throw new Error('originalUrl must be a string');
-      console.log('---> cb', req.session.redirect_uri);
-      return res.redirect(req.session.redirect_uri);
+      const { data } = await axios.get<UsersMeResponse>('https://api.twitter.com/2/users/me', {
+        headers: {
+          Authorization: `Bearer ${req.session.tokenSet.access_token}`,
+        },
+      });
+      const token = getSessionToken({ ...data, tokenSet });
+      return res.redirect(`${req.session.redirect_uri}?token=${token}`);
     })().catch(next);
   });
 
@@ -165,3 +171,4 @@ if (config.providers.twitter) {
 }
 
 export default router;
+// ref: https://github.com/kg0r0/twitter-oauth2-client
