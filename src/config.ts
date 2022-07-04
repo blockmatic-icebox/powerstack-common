@@ -2,10 +2,12 @@ import * as env from 'env-var';
 
 interface Providers {
   twitter?: {
+    client_type: string;
     consumer_key: string;
     consumer_secret: string;
     callback_url: string;
     client_id: string;
+    client_secret: string;
   };
 }
 export interface Config {
@@ -25,10 +27,12 @@ export const config: Config = {
   jwt_token_expiration: env.get('JWT_TOKEN_EXPIRATION').asIntPositive(),
   providers: {
     twitter: {
+      client_type: 'CONFIDENTIAL',
       consumer_key: env.get('TWITTER_CONSUMER_KEY').asString(),
       consumer_secret: env.get('TWITTER_CONSUMER_SECRET').asString(),
       callback_url: env.get('TWITTER_CALLBACK').asString(),
       client_id: env.get('TWITTER_CLIENT_ID').asString(),
+      client_secret: env.get('TWITTER_CLIENT_SECRET').asString(),
     },
   },
 };
