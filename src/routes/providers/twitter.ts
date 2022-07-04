@@ -35,6 +35,16 @@ let confidentialClient;
 let publicClient;
 let client;
 
+const getTwiiterSessionToken = async (tokenSet) => {
+  const { data } = await axios.get<UsersMeResponse>('https://api.twitter.com/2/users/me', {
+    headers: {
+      Authorization: `Bearer ${tokenSet.access_token}`,
+    },
+  });
+  const token = getSessionToken({ ...data, tokenSet });
+  return token;
+};
+
 if (config.providers.twitter) {
   issuer = new Issuer({
     issuer: 'https://twitter.com',
@@ -58,16 +68,10 @@ if (config.providers.twitter) {
     (async () => {
       const redirect_uri = (req.query.redirect_uri as string) || req.originalUrl;
       if (req.session.tokenSet) {
-        // const { data } = await axios.get<UsersMeResponse>('https://api.twitter.com/2/users/me', {
-        //   headers: {
-        //     Authorization: `Bearer ${req.session.tokenSet.access_token}`,
-        //   },
-        // });
-        // return res.send(`Hello ${data.data.username}!`);
-        return res.redirect(redirect_uri);
+        const token = await getTwiiterSessionToken(req.session.tokenSet);
+        const client_redirect_uri = `${redirect_uri}?token=${token}&provider=twitter`;
+        return res.redirect(client_redirect_uri);
       }
-
-      console.log({ redirect_uri });
       const state = generators.state();
       const codeVerifier = generators.codeVerifier();
       const codeChallenge = generators.codeChallenge(codeVerifier);
@@ -104,13 +108,9 @@ if (config.providers.twitter) {
       console.log('received and validated tokens %j', tokenSet);
       req.session.tokenSet = tokenSet;
       if (typeof req.session.originalUrl != 'string') throw new Error('originalUrl must be a string');
-      const { data } = await axios.get<UsersMeResponse>('https://api.twitter.com/2/users/me', {
-        headers: {
-          Authorization: `Bearer ${req.session.tokenSet.access_token}`,
-        },
-      });
-      const token = getSessionToken({ ...data, tokenSet });
-      return res.redirect(`${req.session.redirect_uri}?token=${token}`);
+      const token = await getTwiiterSessionToken(req.session.tokenSet);
+      const client_redirect_uri = `${req.session.redirect_uri}?token=${token}&provider=twitter`;
+      return res.redirect(client_redirect_uri);
     })().catch(next);
   });
 

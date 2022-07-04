@@ -30,6 +30,5 @@ app.get('/', (req, res) => {
 app.use(routes);
 
 app.listen(port, () => {
-  console.log(listEndpoints(app));
   console.log(`Auth listening on port ${port}`);
 });
