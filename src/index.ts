@@ -16,7 +16,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 
-app.use(require('express-session')({ secret: config.server_secret, resave: false, saveUninitialized: false }));
+app.use(
+  require('express-session')({
+    name: 'powerstack-auth',
+    secret: config.server_secret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: false,
+      maxAge: 1000 * 30, // 30 seconds
+    },
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 

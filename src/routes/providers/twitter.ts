@@ -1,7 +1,5 @@
 import { config } from '../../config';
 import express from 'express';
-import session from 'express-session';
-import crypto from 'crypto';
 import { Issuer, generators, TokenSet } from 'openid-client';
 import axios from 'axios';
 import { getSessionToken } from './../../library';
