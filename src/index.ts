@@ -42,4 +42,5 @@ app.use(routes);
 
 app.listen(port, () => {
   console.log(`Auth listening on port ${port}`);
+  console.log(listEndpoints(app));
 });

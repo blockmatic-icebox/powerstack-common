@@ -9,6 +9,7 @@ interface Providers {
     client_id: string;
     client_secret: string;
   };
+  anchor?: {};
 }
 export interface Config {
   hostname: string;
@@ -34,5 +35,6 @@ export const config: Config = {
       client_id: env.get('TWITTER_CLIENT_ID').asString(),
       client_secret: env.get('TWITTER_CLIENT_SECRET').asString(),
     },
+    anchor: {},
   },
 };

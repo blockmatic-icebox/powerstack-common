@@ -17,7 +17,6 @@ interface UsersMeResponse {
 interface RevocationResponse {
   revoked: boolean;
 }
-
 declare module 'express-session' {
   export interface SessionData {
     token_set: TokenSet;
