@@ -11,7 +11,6 @@ if (config.providers.anchor) {
     (async () => {
       try {
         const { signature, digest, pub_key } = req.body;
-        console.log({ signature, digest, pub_key });
         const eos_signature = eosio.Signature.from(signature);
         const eos_pub_key = eosio.PublicKey.from(pub_key);
         const is_valid_signature = eos_signature.verifyDigest(digest, eos_pub_key);
