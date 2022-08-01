@@ -11,9 +11,6 @@ _Disclaimer: This is a work in progress. Will be finalized soon._
 - 🔑 Multiple web2 and web3 sign-in methods.
 - ✨ Integrates with Hasura Engine permissions
 - 🔐 JWT tokens and refresh tokens.
-- ✉️ Emails sent on various operations
-- ✅ Optional checking for Pwned passwords.
-- 👨‍💻 Written 100% in TypeScript.
 
 ## Sign in methods:
 
@@ -22,21 +19,16 @@ _Disclaimer: This is a work in progress. Will be finalized soon._
 - **SMS** - also called **passwordless sms**.
 - **Anonymous** - sign in users without any method. Anonymous users can be
   converted to _regular_ users.
-- **OAuth providers**:
-  - Facebook
-  - Google
-  - GitHub
-  - Twitter
-  - Apple
-  - LinkedIn
-  - Windows Live
-  - Spotify
-  - Strava
-  - GitLab
-  - BitBucket
+- **Auth providers**:
   - Metamask
   - Phantom
   - Anchor
+  - GitHub
+  - Twitter
+  - GitLab
+  - BitBucket
+  - Facebook
+  - Google
 
 ## Docker
 
@@ -59,10 +51,6 @@ docker start powerstack-auth
 docker restart powerstack-auth
 docker kill powerstack-auth
 ```
-
-## Credits
-
-This project is a fork of https://github.com/nhost/hasura-auth
 
 ## Blockmatic
 
