@@ -2,6 +2,10 @@
 
 PowerStack JWT authentication server.
 
+⚡️ [PowerStack: a powerful fullstack development framework](https://powerstack.xyz).
+
+_Disclaimer: This is a work in progress. Will be finalized soon._
+
 ## Core Features:
 
 - 🔑 Multiple web2 and web3 sign-in methods.
