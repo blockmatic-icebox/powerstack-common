@@ -1,4 +1,14 @@
-export type ClaimValueType = string | string[] | number | number[] | RegExp | RegExp[] | boolean | boolean[] | null | undefined
+export type ClaimValueType =
+  | string
+  | string[]
+  | number
+  | number[]
+  | RegExp
+  | RegExp[]
+  | boolean
+  | boolean[]
+  | null
+  | undefined
 
 /**
  * Claims interface.

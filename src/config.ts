@@ -1,23 +1,23 @@
-import * as env from 'env-var';
+import * as env from 'env-var'
 
 interface Providers {
   twitter?: {
-    client_type: string;
-    consumer_key: string;
-    consumer_secret: string;
-    callback_url: string;
-    client_id: string;
-    client_secret: string;
-  };
-  anchor?: {};
+    client_type: string
+    consumer_key: string
+    consumer_secret: string
+    callback_url: string
+    client_id: string
+    client_secret: string
+  }
+  anchor?: {}
 }
 export interface Config {
-  hostname: string;
-  port: number;
-  server_secret: string;
-  jwt_secret: string;
-  jwt_token_expiration: number;
-  providers: Providers;
+  hostname: string
+  port: number
+  server_secret: string
+  jwt_secret: string
+  jwt_token_expiration: number
+  providers: Providers
 }
 
 export const config: Config = {
@@ -37,4 +37,4 @@ export const config: Config = {
     },
     anchor: {},
   },
-};
+}
