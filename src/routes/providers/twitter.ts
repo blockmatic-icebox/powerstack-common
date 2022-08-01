@@ -3,15 +3,13 @@ import express from 'express';
 import { Issuer, generators, TokenSet } from 'openid-client';
 import axios from 'axios';
 import { getSessionToken } from './../../library';
+import { User } from '~/types';
 const db = {}; // TODO: use prisma hasura etc
 
 const router = express.Router();
+
 interface UsersMeResponse {
-  data: {
-    id: string;
-    name: string;
-    username: string;
-  };
+  data: User;
 }
 
 interface RevocationResponse {
@@ -32,7 +30,7 @@ let confidentialClient;
 let publicClient;
 let client;
 
-const getTwiiterSessionToken = async (token_set) => {
+const getTwitterSessionToken = async (token_set) => {
   const { data } = await axios.get<UsersMeResponse>('https://api.twitter.com/2/users/me', {
     headers: {
       Authorization: `Bearer ${token_set.access_token}`,
@@ -70,7 +68,7 @@ if (config.providers.twitter) {
     (async () => {
       const redirect_uri = (req.query.redirect_uri as string) || req.originalUrl;
       if (req.session.token_set) {
-        const token = await getTwiiterSessionToken(req.session.token_set);
+        const token = await getTwitterSessionToken(req.session.token_set);
         const client_redirect_uri = `${redirect_uri}?token=${token}&provider=twitter`;
         return res.redirect(client_redirect_uri);
       }
@@ -109,7 +107,7 @@ if (config.providers.twitter) {
       );
       req.session.token_set = token_set;
       if (typeof req.session.originalUrl != 'string') throw new Error('originalUrl must be a string');
-      const token = await getTwiiterSessionToken(req.session.token_set);
+      const token = await getTwitterSessionToken(req.session.token_set);
       const client_redirect_uri = `${req.session.redirect_uri}?token=${token}&provider=twitter`;
       return res.redirect(client_redirect_uri);
     })().catch(next);
