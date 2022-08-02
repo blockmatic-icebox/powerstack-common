@@ -8,9 +8,9 @@ const router = express.Router();
 router.post('/token/verify', (req, res, next) => {
   (async () => {
     const token = req.body.token;
-    // TODO: fix verify method
-    // const decoded_token = verifyToken(token);
-    const decoded_token = decodeJwt(token);
+    // TODO: fix verify method in order to DEBUG we can use decodeJwt
+    const decoded_token = verifyToken(token);
+    // const decoded_token = decodeJwt(token);
     return res.send({ decoded_token });
   })().catch(next);
 });
