@@ -1,14 +1,4 @@
-export type ClaimValueType =
-  | string
-  | string[]
-  | number
-  | number[]
-  | RegExp
-  | RegExp[]
-  | boolean
-  | boolean[]
-  | null
-  | undefined
+export type ClaimValueType = string | string[] | number | number[] | RegExp | RegExp[] | boolean | boolean[] | null | undefined;
 
 /**
  * Claims interface.
@@ -44,27 +34,43 @@ export type Token = {
 }
 
 // Session and user
-type Metadata = Record<string, unknown>
+type Metadata = Record<string, unknown>;
 
-export type User = any
+export type User = {
+  id: string;
+  name: string;
+  username: string;
+};
+
+export type UserRole = {
+  role: string;
+};
+
+export type HasuraUser = {
+  roles: UserRole[];
+  defaultRole?: string;
+  id: string;
+  isAnonymous: boolean;
+};
 
 export type Session = {
-  accessToken: string
-  accessTokenExpiresIn: number
-  refreshToken: string
-  user?: User
-}
+  accessToken: string;
+  accessTokenExpiresIn: number;
+  refreshToken: string;
+  user?: User;
+};
 
 export type JwtSecret = {
-  type: 'HS256' | 'HS238' | 'HS512' | 'RS256' | 'RS384' | 'RS512' | 'Ed25519'
-  key: string
-  jwk_url?: string
-  claims_namespace?: string
-  claims_namespace_path?: string
-  claims_format?: string
-  audience?: string
-  issuer?: string
-  claims_map?: string
-  allowed_skew?: string
-  header?: string
-}
+  type: 'HS256' | 'HS238' | 'HS512' | 'RS256' | 'RS384' | 'RS512' | 'Ed25519';
+  key: string;
+  jwk_url?: string;
+  claims_namespace?: string;
+  claims_namespace_path?: string;
+  claims_format?: string;
+  audience?: string;
+  issuer?: string;
+  claims_map?: string;
+  allowed_skew?: string;
+  header?: string;
+};
+
