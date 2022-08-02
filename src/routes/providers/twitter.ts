@@ -36,7 +36,7 @@ const getTwitterSessionToken = async (token_set) => {
       Authorization: `Bearer ${token_set.access_token}`,
     },
   });
-  const token = getSessionToken({
+  const token = await getSessionToken({
     user: {
       ...data.data,
     },

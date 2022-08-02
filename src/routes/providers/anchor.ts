@@ -18,7 +18,7 @@ if (config.providers.anchor) {
           return res.send({
             token: null,
           });
-        const token = getSessionToken({
+        const token = await getSessionToken({
           user: {
             account: pub_key,
           },
