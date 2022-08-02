@@ -19,6 +19,7 @@ app.use(
     origin: '*',
   })
 );
+
 app.use(
   require('express-session')({
     name: 'powerstack-auth',

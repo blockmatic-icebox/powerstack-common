@@ -4,34 +4,34 @@ export type ClaimValueType = string | string[] | number | number[] | RegExp | Re
  * Claims interface.
  */
 export interface Claims {
-  'x-hasura-user-id': string;
-  'x-hasura-default-role': string;
-  'x-hasura-allowed-roles': string[];
-  [key: string]: ClaimValueType;
+  'x-hasura-user-id': string
+  'x-hasura-default-role': string
+  'x-hasura-allowed-roles': string[]
+  [key: string]: ClaimValueType
 }
 
 /**
  * PermissionVariables interface.
  */
 export interface PermissionVariables {
-  'user-id': string;
-  'default-role': string;
-  'allowed-roles': string[];
-  [key: string]: ClaimValueType;
+  'user-id': string
+  'default-role': string
+  'allowed-roles': string[]
+  [key: string]: ClaimValueType
 }
 
 /**
  * Token interface.
  */
 export type Token = {
-  [key: string]: Claims;
+  [key: string]: Claims
 } & {
-  'https://hasura.io/jwt/claims': Claims;
-  exp: bigint;
-  iat: bigint;
-  iss: string;
-  sub: string;
-};
+  'https://hasura.io/jwt/claims': Claims
+  exp: bigint
+  iat: bigint
+  iss: string
+  sub: string
+}
 
 // Session and user
 type Metadata = Record<string, unknown>;
@@ -73,3 +73,4 @@ export type JwtSecret = {
   allowed_skew?: string;
   header?: string;
 };
+
