@@ -1,18 +1,18 @@
-import { verify, sign } from 'jsonwebtoken';
-import { config } from '../config';
-import { ClaimValueType, HasuraUser, Session, User } from '../types';
+import { verify, sign } from 'jsonwebtoken'
+import { config } from '../config'
+import { ClaimValueType, HasuraUser, Session, User } from '../types'
 
-const jwt = config.jwt_secret;
-const jwt_token_expiration = config.jwt_token_expiration;
+const jwt = config.jwt_secret
+const jwt_token_expiration = config.jwt_token_expiration
 
 export const generateCustomClaims = async (userId: string) => {
-  return {};
-};
+  return {}
+}
 
 // TODO: use user
 // user: HasuraUser
 export const generateHasuraClaims = async (): Promise<{
-  [key: string]: ClaimValueType;
+  [key: string]: ClaimValueType
 }> => {
   // const allowedRoles = user.roles.map((role) => role.role);
 
@@ -30,65 +30,67 @@ export const generateHasuraClaims = async (): Promise<{
   //   [`x-hasura-user-is-anonymous`]: user.isAnonymous.toString(),
   // };
   return {
-    'x-hasura-allowed-roles': ['user'],
-    'x-hasura-default-role': 'user',
+    'x-hasura-allowed-roles': ['anon'],
+    'x-hasura-default-role': 'anon',
     'x-hasura-user-id': '1234567890',
     'x-hasura-org-id': '123',
-  };
-};
+  }
+}
 
 export const verifyToken = (token: string) => {
   if (!token) {
-    return new Error('Invalid token');
+    return new Error('Invalid token')
   }
-  let decoded_token;
+  let decoded_token
   try {
-    decoded_token = verify(token, jwt.key);
-    console.log({ decoded_token });
+    decoded_token = verify(token, jwt.key)
+    console.log({ decoded_token })
   } catch (error) {
-    console.log('error', error);
-    return new Error('Invalid token');
+    console.log('error', error)
+    return new Error('Invalid token')
   }
-  return decoded_token;
-};
+  return decoded_token
+}
 
 export const getRefreshToken = (token: string, session) => {
   if (!token) {
-    return new Error('Invalid token');
+    return new Error('Invalid token')
   }
 
   try {
-    verify(token, jwt.key);
+    verify(token, jwt.key)
   } catch (e) {
-    return new Error('Invalid token');
+    return new Error('Invalid token')
   }
   const newToken = sign(session, jwt.key, {
     algorithm: jwt.type,
     expiresIn: jwt_token_expiration,
-  });
+  })
 
-  return newToken;
-};
+  return newToken
+}
 
 // TODO: WIP please add a better support
 const getNormalizedUser = async (userProvider): Promise<User> => {
-  const { user } = userProvider;
+  const { user } = userProvider
   return {
     id: user.id,
     name: user.name,
     username: user.username,
-  };
-};
+  }
+}
 
 export const getSessionToken = async (user) => {
-  console.log({ 'input: user': user });
-  const jwt_name_space = jwt.claims_namespace ? jwt.claims_namespace : 'https://hasura.io/jwt/claims';
-  const normalized_user = await getNormalizedUser(user);
-  const hasura_claims_user_session = await generateHasuraClaims();
+  console.log({ 'input: user': user })
+  const jwt_name_space = jwt.claims_namespace
+    ? jwt.claims_namespace
+    : 'https://hasura.io/jwt/claims'
+  const normalized_user = await getNormalizedUser(user)
+  const hasura_claims_user_session = await generateHasuraClaims()
   console.log({
     hasura_claims_user_session,
     normalized_user,
-  });
+  })
   const token = sign(
     {
       user: normalized_user,
@@ -98,10 +100,10 @@ export const getSessionToken = async (user) => {
     {
       algorithm: jwt.type,
       expiresIn: jwt_token_expiration,
-    }
-  );
-  return token;
-};
+    },
+  )
+  return token
+}
 
 // TODO: this is a WIP please just keep for reference
 // export const getNewOrUpdateCurrentSession = async ({
