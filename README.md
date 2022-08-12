@@ -28,6 +28,17 @@ _Disclaimer: This is a work in progress. Will be finalized soon._
   - BitBucket
   - Facebook
   - Google
+  
+## JWT and OAuth2
+
+JSON Web Tokens are an open, industry standard RFC 7519 method for representing claims securely between two parties
+
+[jwt.io](http://jwt.io) allows you to decode, verify and generate JWT.
+
+OAuth 2.0 is the industry-standard protocol for authorization. Learn more at [oauth.net/2/](https://oauth.net/2)
+
+![image](https://user-images.githubusercontent.com/391270/184449766-90b00732-7fa3-4cf8-9986-892ff5686b8e.png)
+
 
 ## Docker
 
