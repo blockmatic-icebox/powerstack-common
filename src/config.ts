@@ -1,27 +1,40 @@
-import * as env from 'env-var';
-import { JwtSecret } from './types';
+import * as env from 'env-var'
+
+export type JwtSecret = {
+  type: 'HS256' | 'HS238' | 'HS512' | 'RS256' | 'RS384' | 'RS512' | 'Ed25519'
+  key: string
+  jwk_url?: string
+  claims_namespace?: string
+  claims_namespace_path?: string
+  claims_format?: string
+  audience?: string
+  issuer?: string
+  claims_map?: string
+  allowed_skew?: string
+  header?: string
+}
 
 interface Providers {
   twitter?: {
-    client_type: string;
-    consumer_key: string;
-    consumer_secret: string;
-    callback_url: string;
-    client_id: string;
-    client_secret: string;
-  };
-  anchor?: {};
+    client_type: string
+    consumer_key: string
+    consumer_secret: string
+    callback_url: string
+    client_id: string
+    client_secret: string
+  }
+  anchor?: {}
 }
-export interface Config {
-  hostname: string;
-  port: number;
-  server_secret: string;
-  jwt_secret: JwtSecret;
-  jwt_token_expiration: number;
-  providers: Providers;
+export interface ServiceConfig {
+  hostname: string
+  port: number
+  server_secret: string
+  jwt_secret: JwtSecret
+  jwt_token_expiration: number
+  providers: Providers
 }
 
-export const config: Config = {
+export const config: ServiceConfig = {
   hostname: env.get('HOSTNAME').asString() || '0.0.0.0',
   port: env.get('PORT').asIntPositive() || 4000,
   server_secret: env.get('SERVER_SECRET').asString(),
@@ -38,4 +51,4 @@ export const config: Config = {
     },
     anchor: {},
   },
-};
+}
