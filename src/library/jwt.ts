@@ -43,7 +43,7 @@ export const getSessionToken = async ({ username, address, auth_method }: TokenU
         'x-hasura-default-role': 'user',
         'x-hasura-user-username': username,
         'x-hasura-user-address': address,
-        'x-hasura-user-auth-method': 'auth_method',
+        'x-hasura-user-auth-method': auth_method,
       },
     },
     config.jwt_secret.key,

@@ -28,7 +28,7 @@ _Disclaimer: This is a work in progress. Will be finalized soon._
   - BitBucket
   - Facebook
   - Google
-  
+
 ## JWT and OAuth2
 
 JSON Web Tokens are an open, industry standard RFC 7519 method for representing claims securely between two parties
@@ -39,6 +39,22 @@ OAuth 2.0 is the industry-standard protocol for authorization. Learn more at [oa
 
 ![image](https://user-images.githubusercontent.com/391270/184449766-90b00732-7fa3-4cf8-9986-892ff5686b8e.png)
 
+## JWT Payload Standard
+
+```ts
+{
+  username: 'powerstack',
+  address: '0x',
+  auth_method: 'web3_phantom',
+  ['https://hasura.io/jwt/claims']: {
+    'x-hasura-allowed-roles': ['user'],
+    'x-hasura-default-role': 'user',
+    'x-hasura-user-username': 'powerstack',
+    'x-hasura-user-address': '0x',
+    'x-hasura-user-auth-method': 'web3_phantom',
+  },
+},
+```
 
 ## Docker
 
