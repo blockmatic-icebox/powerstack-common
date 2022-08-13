@@ -19,7 +19,7 @@ if (config.providers.anchor) {
       const token = await getSessionToken({
         address,
         username: 'solano',
-        auth_method: 'web3_phantom',
+        auth_method: 'web3_solana',
       })
       return res.send({ token })
     } catch (error) {

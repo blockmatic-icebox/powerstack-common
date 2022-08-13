@@ -45,13 +45,13 @@ OAuth 2.0 is the industry-standard protocol for authorization. Learn more at [oa
 {
   username: 'powerstack',
   address: '0x',
-  auth_method: 'web3_phantom',
+  auth_method: 'web3_solana',
   ['https://hasura.io/jwt/claims']: {
     'x-hasura-allowed-roles': ['user'],
     'x-hasura-default-role': 'user',
     'x-hasura-user-username': 'powerstack',
     'x-hasura-user-address': '0x',
-    'x-hasura-user-auth-method': 'web3_phantom',
+    'x-hasura-user-auth-method': 'web3_solana',
   },
 },
 ```

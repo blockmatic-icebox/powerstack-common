@@ -6,7 +6,7 @@ import { ethers } from 'ethers'
 const router = express.Router()
 
 if (config.providers.metamask) {
-  router.post('/provider/metamask', async (req, res, next) => {
+  router.post('/provider/evm', async (req, res, next) => {
     try {
       const { address, signature, message } = req.body
       const addr = await ethers.utils.verifyMessage(message, signature)
@@ -17,7 +17,7 @@ if (config.providers.metamask) {
       const token = await getSessionToken({
         address,
         username: 'anon',
-        auth_method: 'web3_metamask',
+        auth_method: 'web3_evm',
       })
       return res.send({ token })
     } catch (error) {

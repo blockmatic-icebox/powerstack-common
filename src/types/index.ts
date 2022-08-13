@@ -3,8 +3,8 @@ export type Address = string
 export type AuthMedthod =
   | 'web2_twitter'
   | 'web3_web3auth'
-  | 'web3_phantom'
-  | 'web3_metamask'
+  | 'web3_solana'
+  | 'web3_evm'
   | 'web3_anchor'
 
 export type ClaimValueType =
