@@ -24,6 +24,7 @@ interface Providers {
     client_secret: string
   }
   anchor?: {}
+  phantom?: {}
 }
 export interface ServiceConfig {
   hostname: string
@@ -50,5 +51,6 @@ export const config: ServiceConfig = {
       client_secret: env.get('TWITTER_CLIENT_SECRET').asString(),
     },
     anchor: {},
+    phantom: {},
   },
 }
