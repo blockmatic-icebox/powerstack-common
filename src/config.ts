@@ -25,6 +25,7 @@ interface Providers {
   }
   anchor?: {}
   phantom?: {}
+  metamask?: {}
 }
 export interface ServiceConfig {
   hostname: string
@@ -52,5 +53,6 @@ export const config: ServiceConfig = {
     },
     anchor: {},
     phantom: {},
+    metamask: {},
   },
 }
