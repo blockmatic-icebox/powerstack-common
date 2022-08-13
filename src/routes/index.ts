@@ -1,7 +1,7 @@
 import * as express from 'express'
 import { ReasonPhrases } from 'http-status-codes'
 import twitterRouter from './providers/twitter'
-import anchorRouter from './providers/anchor'
+import anchorRouter from './providers/eosio'
 import tokenRouter from './token'
 
 require('express-async-errors')
