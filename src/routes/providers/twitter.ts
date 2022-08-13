@@ -36,6 +36,7 @@ const getTwitterSessionToken = async (token_set) => {
   const token = await getSessionToken({
     username: data.data.username,
     address: '',
+    auth_method: 'web2_twitter',
   })
   return token
 }

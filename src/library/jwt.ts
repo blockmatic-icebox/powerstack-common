@@ -32,16 +32,18 @@ export const getRefreshToken = (token: string, session) => {
   return new_token
 }
 
-export const getSessionToken = async ({ username, address }: TokenUserInfo) =>
+export const getSessionToken = async ({ username, address, auth_method }: TokenUserInfo) =>
   sign(
     {
       username,
       address,
+      auth_method,
       ['https://hasura.io/jwt/claims']: {
         'x-hasura-allowed-roles': ['user'],
         'x-hasura-default-role': 'user',
-        'x-hasura-user-id': username,
+        'x-hasura-user-username': username,
         'x-hasura-user-address': address,
+        'x-hasura-user-auth-method': auth_method,
       },
     },
     config.jwt_secret.key,
