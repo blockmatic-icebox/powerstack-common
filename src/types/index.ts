@@ -1,5 +1,12 @@
 export type Address = string
 
+export type AuthMedthod =
+  | 'web2_twitter'
+  | 'web3_web3auth'
+  | 'web3_phantom'
+  | 'web3_metamask'
+  | 'web3_anchor'
+
 export type ClaimValueType =
   | string
   | string[]
@@ -13,16 +20,18 @@ export type ClaimValueType =
   | undefined
 
 export interface HasuraClaims {
-  'x-hasura-user-id': string
   'x-hasura-default-role': string
   'x-hasura-allowed-roles': string[]
-  'x-hasura-user-address': Address
+  'x-hasura-user-username': Address
+  'x-hasura-user-address': string
+  'x-hasura-user-auth-method': AuthMedthod
   [key: string]: ClaimValueType
 }
 
 export interface TokenUserInfo {
-  address: string
+  address: Address
   username: string
+  auth_method: AuthMedthod
 }
 
 // export interface PermissionVariables {
