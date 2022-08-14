@@ -8,14 +8,7 @@ const router = express.Router()
 router.post('/provider/evm', async (req, res, next) => {
   try {
     console.log('/provider/evm')
-
     const { address: user_address, signed_message, message, auth_method } = req.body
-    console.log({
-      user_address,
-      signed_message,
-      message,
-      auth_method,
-    })
     // TODO: improve validation
     if (auth_method !== 'web3_metamask' && auth_method !== 'web3_auth')
       return res.status(401).send({ token: null, error: 'Invalid login method' }) // TODO: fix me normalize error
