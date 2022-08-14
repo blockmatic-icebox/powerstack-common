@@ -1,6 +1,6 @@
 import { config } from '../../config'
 import express from 'express'
-import { getSessionToken } from '../../library/jwt'
+import { getTokenSession } from '../../library/jwt'
 import nacl from 'tweetnacl'
 import { TextEncoder } from 'node:util'
 
@@ -16,7 +16,7 @@ if (config.providers.anchor) {
       // throw new AuthorizationError(`Invalid signature`)
       const is_valid_signature = false
       if (!is_valid_signature) return res.send({ token: null })
-      const token = await getSessionToken({
+      const token = await getTokenSession({
         address,
         username: 'solano',
         auth_method: 'web3_solana',
