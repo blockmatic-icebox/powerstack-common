@@ -10,8 +10,14 @@ router.post('/provider/evm', async (req, res, next) => {
     console.log('/provider/evm')
 
     const { address: user_address, signed_message, message, auth_method } = req.body
+    console.log({
+      user_address,
+      signed_message,
+      message,
+      auth_method,
+    })
     // TODO: improve validation
-    if (auth_method !== 'web3_metamask' || auth_method !== 'web3_auth')
+    if (auth_method !== 'web3_metamask' && auth_method !== 'web3_auth')
       return res.status(401).send({ token: null, error: 'Invalid login method' }) // TODO: fix me normalize error
 
     const address_message = ethers.utils.verifyMessage(message, signed_message)
@@ -29,6 +35,7 @@ router.post('/provider/evm', async (req, res, next) => {
       error: null,
     })
   } catch (error) {
+    console.log({ error })
     return res.status(401).send({ token: null, error: error.message }) // TODO: fix me normalize error
   }
 })
