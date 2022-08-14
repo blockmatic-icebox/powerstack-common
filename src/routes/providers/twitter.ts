@@ -2,7 +2,7 @@ import { config } from '../../config'
 import express from 'express'
 import { Issuer, generators, TokenSet } from 'openid-client'
 import axios from 'axios'
-import { getSessionToken } from '../../library/jwt'
+import { getTokenSession } from '../../library/jwt'
 
 const router = express.Router()
 
@@ -33,7 +33,7 @@ const getTwitterSessionToken = async (token_set) => {
       Authorization: `Bearer ${token_set.access_token}`,
     },
   })
-  const token = await getSessionToken({
+  const token = await getTokenSession({
     username: data.data.username,
     address: '',
     auth_method: 'web2_twitter',

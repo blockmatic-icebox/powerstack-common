@@ -25,29 +25,6 @@ export interface HasuraClaims {
 
 export interface TokenUserInfo {
   address: Address
-  username: string
+  username?: string // TODO: validate
   auth_method: AuthMedthod
 }
-
-// export interface PermissionVariables {
-//   'user-id': string
-//   'default-role': string
-//   'allowed-roles': string[]
-//   [key: string]: ClaimValueType
-// }
-
-// export type Token = {
-//   [key: string]: Claims
-// } & {
-//   'https://hasura.io/jwt/claims': Claims
-//   exp: bigint
-//   iat: bigint
-//   iss: string
-//   sub: string
-// }
-// export type Session = {
-//   accessToken: string
-//   accessTokenExpiresIn: number
-//   refreshToken: string
-//   user?: User
-// }
