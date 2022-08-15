@@ -13,7 +13,6 @@ if (config.providers.anchor) {
       console.log('/provider/phantom')
       // TODO: fix me validate body
       const { address, signed_message, message } = req.body
-      console.log({ address, signed_message, message })
       const encode = new TextEncoder().encode
       const is_valid_signed_message = nacl.sign.detached.verify(
         new TextEncoder().encode(message),
