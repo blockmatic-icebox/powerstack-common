@@ -26,5 +26,6 @@ export interface HasuraClaims {
 export interface TokenUserInfo {
   address: Address
   username?: string // TODO: validate
+  public_key?: string // TODO: validate
   auth_method: AuthMedthod
 }

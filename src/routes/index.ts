@@ -3,6 +3,7 @@ import { ReasonPhrases } from 'http-status-codes'
 import twitterRouter from './providers/twitter'
 import anchorRouter from './providers/eosio'
 import evmRouter from './providers/evm'
+import evmSolana from './providers/solana'
 import tokenRouter from './token'
 
 require('express-async-errors')
@@ -14,5 +15,6 @@ router.use('/', twitterRouter)
 router.use('/', tokenRouter)
 router.use('/', anchorRouter)
 router.use('/', evmRouter)
+router.use('/', evmSolana)
 
 export default router
