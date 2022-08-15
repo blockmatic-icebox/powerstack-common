@@ -3,29 +3,30 @@ import express from 'express'
 import { getTokenSession } from '../../library/jwt'
 import nacl from 'tweetnacl'
 import { TextEncoder } from 'node:util'
+import bs58 from 'bs58'
 
 const router = express.Router()
 
 if (config.providers.anchor) {
   router.post('/provider/phantom', async (req, res, next) => {
     try {
+      console.log('/provider/phantom')
       // TODO: fix me validate body
-      const { address, signature, message, public_key } = req.body
-      const encoder = new TextEncoder().encode
-      const is_valid_signature = nacl.sign.detached.verify(
-        encoder(message),
-        encoder(signature),
-        encoder(public_key),
+      const { address, signed_message, message } = req.body
+      console.log({ address, signed_message, message })
+      const encode = new TextEncoder().encode
+      const is_valid_signed_message = nacl.sign.detached.verify(
+        new TextEncoder().encode(message),
+        bs58.decode(signed_message),
+        bs58.decode(address),
       )
-      console.log('auth response is_signature', is_valid_signature)
-      if (!is_valid_signature)
-        return res.status(401).send({ token: null, error: 'Invalid Signature' }) // TODO: fix me normalize error
+      if (!is_valid_signed_message)
+        return res.status(401).send({ token: null, error: 'Invalid signed_message' }) // TODO: fix me normalize error
 
       const token = await getTokenSession({
         address,
         username: 'solana', // TODO fix me
         auth_method: 'web3_solana',
-        public_key: public_key,
       })
       return res.send({
         token: token,
