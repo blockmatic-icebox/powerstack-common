@@ -54,9 +54,11 @@ export const generateHasuraClaims = async ({
   return {
     'x-hasura-allowed-roles': ['user'],
     'x-hasura-default-role': 'user',
-    'x-hasura-user-username': username,
-    'x-hasura-user-address': address,
-    'x-hasura-user-auth-method': auth_method,
+    'x-hasura-user-id': 'id', // TODO get from db
+    'x-hasura-user-username': username, // TODO get from db
+    'x-hasura-user-addresses': ['one', 'two'], // TODO get from db
+    'x-hasura-user-login-address': address,
+    'x-hasura-user-login-method': auth_method,
   }
 }
 

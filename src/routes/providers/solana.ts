@@ -10,6 +10,7 @@ const router = express.Router()
 if (config.providers.anchor) {
   router.post('/provider/phantom', async (req, res, next) => {
     try {
+<<<<<<< HEAD
       console.log('/provider/phantom')
       // TODO: fix me validate body
       const { address, signed_message, message } = req.body
@@ -22,6 +23,7 @@ if (config.providers.anchor) {
       if (!is_valid_signed_message)
         return res.status(401).send({ token: null, error: 'Invalid signed_message' }) // TODO: fix me normalize error
 
+           // TOOD: get or create account on db
       const token = await getTokenSession({
         address,
         username: 'solana', // TODO fix me
