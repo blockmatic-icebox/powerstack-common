@@ -9,7 +9,7 @@ export const getOrCreateAccount = async ({
   login_username,
   login_method,
 }: AuthInfo) => {
-  const account = await prisma.accounts.findFirst({
+  let account = await prisma.accounts.findFirst({
     where: {
       addresses: {
         some: {
@@ -22,5 +22,32 @@ export const getOrCreateAccount = async ({
       addresses: true,
     },
   })
+
+  if (!account) {
+    account = await prisma.accounts.create({
+      data: {
+        username: '',
+        addresses: {
+          create: [
+            {
+              network: login_network,
+              address: login_address,
+            },
+          ],
+        },
+      },
+      include: {
+        addresses: true,
+      },
+    })
+  }
+
+  if (!account) {
+    console.log('Error finding or creating account with login_address', {
+      login_address,
+      login_network,
+    })
+  }
+
   return account
 }
