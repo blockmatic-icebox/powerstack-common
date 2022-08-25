@@ -20,6 +20,7 @@ router.post('/provider/solana', async (req, res, next) => {
       return res.status(401).send({ token: null, error: 'Invalid signed_message' }) // TODO: fix me normalize error
 
     const token = await getTokenSession({
+      login_network: 'solana', // TODO: get this from payload
       login_address: address,
       login_method: 'web3_solana',
     })

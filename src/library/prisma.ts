@@ -24,6 +24,20 @@ export const getOrCreateAccount = async ({
   })
 
   if (!account) {
+    console.log(
+      'create account ',
+      JSON.stringify({
+        username: '',
+        addresses: {
+          create: [
+            {
+              network: login_network,
+              address: login_address,
+            },
+          ],
+        },
+      }),
+    )
     account = await prisma.accounts.create({
       data: {
         username: '',

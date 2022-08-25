@@ -1,8 +1,9 @@
 import { verify, sign } from 'jsonwebtoken'
 import { TokenPayload, AuthInfo } from '../types'
 import { config } from '../config'
-import { getOrCreateAccount, prisma } from './prisma'
+import { getOrCreateAccount } from './prisma'
 import { randomUUID } from 'node:crypto'
+import _ from 'lodash'
 
 export const verifyToken = (token: string) => {
   if (!token) return new Error('Invalid token')
@@ -34,6 +35,8 @@ export const getRefreshToken = (token: string, session) => {
 // https://hasura.io/docs/latest/auth/authentication/jwt/
 export const getTokenPayload = async (auth_info: AuthInfo): Promise<TokenPayload> => {
   const account = await getOrCreateAccount(auth_info)
+
+  console.log('=================> ', account)
   const session_id = randomUUID()
   const token_payload: TokenPayload = {
     user: {
@@ -41,6 +44,7 @@ export const getTokenPayload = async (auth_info: AuthInfo): Promise<TokenPayload
       session_id,
       username: account.username,
       auth_method: auth_info.login_method,
+      addresses: account.addresses.map((address) => _.omit(address, 'account_id')),
     },
     'https://hasura.io/jwt/claims': {
       'x-hasura-allowed-roles': ['user'],

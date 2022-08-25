@@ -1,3 +1,5 @@
+import { addresses } from '@prisma/client'
+
 export type Address = string
 
 export type AuthMethod =
@@ -32,11 +34,17 @@ export interface HasuraClaims {
   'x-hasura-user-auth-method': AuthMethod
   [key: string]: HasuraClaimValueType
 }
+
+export interface AccountAddress {
+  network: string
+  address: string
+}
 export interface TokenUser {
   account_id: string
   session_id: string
   username?: string
   auth_method: AuthMethod
+  addresses: AccountAddress[]
 }
 export interface TokenPayload {
   user: TokenUser
