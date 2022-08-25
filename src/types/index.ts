@@ -1,17 +1,18 @@
 export type Address = string
 
-export type AuthMedthod = 'web2_twitter' | 'web3_solana' | 'web3_evm' | 'web3_anchor'
-export interface LoginUserInfo {
-  login_address: Address
-  auth_method: AuthMedthod
-}
-
-export type AppLoginMethod =
+export type AuthMethod =
   | 'web2_twitter'
   | 'web3_solana'
   | 'web3_anchor'
   | 'web3_metamask'
   | 'web3_auth'
+
+export interface AuthInfo {
+  login_username?: string // web2
+  login_network?: string // web3
+  login_address?: Address // web3
+  login_method: AuthMethod
+}
 
 export type HasuraClaimValueType =
   | string
@@ -28,25 +29,16 @@ export interface HasuraClaims {
   'x-hasura-default-role': string
   'x-hasura-allowed-roles': string[]
   'x-hasura-user-username': Address
-  'x-hasura-user-address': string
-  'x-hasura-user-auth-method': AuthMedthod
+  'x-hasura-user-auth-method': AuthMethod
   [key: string]: HasuraClaimValueType
 }
-export interface AppUser {
+export interface TokenUser {
   account_id: string
+  session_id: string
   username?: string
-  auth_method: AppLoginMethod
-  addresses: AppUserAddress[]
+  auth_method: AuthMethod
 }
-export interface AppUserAddress {
-  address: string
-  network: string
-  ticker: string
-  balance: string // in decimal notation
-  unit_balance: string // balance in smallest unit. eg. wei
-}
-
 export interface TokenPayload {
-  user: AppUser
+  user: TokenUser
   'https://hasura.io/jwt/claims': HasuraClaims
 }
