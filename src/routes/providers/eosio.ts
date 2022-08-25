@@ -5,24 +5,28 @@ import { getTokenSession } from '../../library/jwt'
 
 const router = express.Router()
 
-if (config.providers.anchor) {
-  router.post('/provider/eosio', async (req, res) => {
-    try {
-      const { signature, digest, pub_key } = req.body
-      const eos_signature = eosio.Signature.from(signature)
-      const eos_pub_key = eosio.PublicKey.from(pub_key)
-      const is_valid_signature = eos_signature.verifyDigest(digest, eos_pub_key)
-      if (!is_valid_signature) return res.send({ token: null })
-      const token = await getTokenSession({
-        address: pub_key,
-        username: 'anon',
-        auth_method: 'web3_evm',
-      })
-      return res.send({ token })
-    } catch (error) {
-      res.send({ token: null })
-    }
-  })
-}
+router.post('/provider/eosio', async (req, res) => {
+  try {
+    const { address: account, signed_message: signature, message: digest, pub_key } = req.body
+    const eos_signature = eosio.Signature.from(signature)
+    const eos_pub_key = eosio.PublicKey.from(pub_key)
+    const is_valid_signature = eos_signature.verifyDigest(digest, eos_pub_key)
+
+    if (!is_valid_signature)
+      return res.status(401).send({ token: null, error: 'Invalid Signature' }) // TODO: fix me normalize error
+
+    const token = await getTokenSession({
+      address: pub_key,
+      username: account,
+      auth_method: 'web3_anchor',
+    })
+    return res.send({
+      token: token,
+      error: null,
+    })
+  } catch (error) {
+    return res.status(401).send({ token: null, error: error.message })
+  }
+})
 
 export default router
