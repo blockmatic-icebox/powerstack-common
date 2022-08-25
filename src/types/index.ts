@@ -1,8 +1,22 @@
+import { addresses } from '@prisma/client'
+
 export type Address = string
 
-export type AuthMedthod = 'web2_twitter' | 'web3_solana' | 'web3_evm' | 'web3_anchor'
+export type AuthMethod =
+  | 'web2_twitter'
+  | 'web3_solana'
+  | 'web3_anchor'
+  | 'web3_metamask'
+  | 'web3_auth'
 
-export type ClaimValueType =
+export interface AuthInfo {
+  login_username?: string // web2
+  login_network?: string // web3
+  login_address?: Address // web3
+  login_method: AuthMethod
+}
+
+export type HasuraClaimValueType =
   | string
   | string[]
   | number
@@ -13,19 +27,26 @@ export type ClaimValueType =
   | boolean[]
   | null
   | undefined
-
 export interface HasuraClaims {
   'x-hasura-default-role': string
   'x-hasura-allowed-roles': string[]
   'x-hasura-user-username': Address
-  'x-hasura-user-address': string
-  'x-hasura-user-auth-method': AuthMedthod
-  [key: string]: ClaimValueType
+  'x-hasura-user-auth-method': AuthMethod
+  [key: string]: HasuraClaimValueType
 }
 
-export interface TokenUserInfo {
-  address: Address
-  username?: string // TODO: validate
-  public_key?: string // TODO: validate
-  auth_method: AuthMedthod
+export interface AccountAddress {
+  network: string
+  address: string
+}
+export interface TokenUser {
+  account_id: string
+  session_id: string
+  username?: string
+  auth_method: AuthMethod
+  addresses: AccountAddress[]
+}
+export interface TokenPayload {
+  user: TokenUser
+  'https://hasura.io/jwt/claims': HasuraClaims
 }

@@ -1,4 +1,3 @@
-import { config } from '../../config'
 import express from 'express'
 import { getTokenSession } from '../../library/jwt'
 import { ethers } from 'ethers'
@@ -9,19 +8,17 @@ router.post('/provider/evm', async (req, res, next) => {
   try {
     console.log('/provider/evm')
     const { address: user_address, signed_message, message, auth_method } = req.body
-    // TODO: improve validation
     if (auth_method !== 'web3_metamask' && auth_method !== 'web3_auth')
-      return res.status(401).send({ token: null, error: 'Invalid login method' }) // TODO: fix me normalize error
+      return res.status(401).send({ token: null, error: 'Invalid login method' })
 
     const address_message = ethers.utils.verifyMessage(message, signed_message)
 
     if (address_message !== user_address)
-      return res.status(401).send({ token: null, error: 'Invalid Signature' }) // TODO: fix me normalize error
+      return res.status(401).send({ token: null, error: 'Invalid Signature' })
 
     const token = await getTokenSession({
-      username: 'anon', // TODO: fix me
-      address: user_address,
-      auth_method,
+      login_address: user_address,
+      login_method: auth_method,
     })
     return res.send({
       token: token,
@@ -29,7 +26,7 @@ router.post('/provider/evm', async (req, res, next) => {
     })
   } catch (error) {
     console.log({ error })
-    return res.status(401).send({ token: null, error: error.message }) // TODO: fix me normalize error
+    return res.status(401).send({ token: null, error: error.message })
   }
 })
 

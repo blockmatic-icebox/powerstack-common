@@ -1,11 +1,10 @@
-import { config } from '../../config'
 import express from 'express'
 import * as eosio from '@greymass/eosio'
 import { getTokenSession } from '../../library/jwt'
 
 const router = express.Router()
 
-router.post('/provider/eosio', async (req, res) => {
+router.post('/provider/antelope', async (req, res) => {
   try {
     const { address: account, signed_message: signature, message: digest, pub_key } = req.body
     const eos_signature = eosio.Signature.from(signature)
@@ -16,9 +15,9 @@ router.post('/provider/eosio', async (req, res) => {
       return res.status(401).send({ token: null, error: 'Invalid Signature' }) // TODO: fix me normalize error
 
     const token = await getTokenSession({
-      address: pub_key,
-      username: account,
-      auth_method: 'web3_anchor',
+      login_address: pub_key,
+      login_network: 'eos',
+      login_method: 'web3_anchor',
     })
     return res.send({
       token: token,

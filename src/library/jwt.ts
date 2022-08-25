@@ -1,12 +1,12 @@
 import { verify, sign } from 'jsonwebtoken'
-import { ClaimValueType, TokenUserInfo } from '../types'
+import { TokenPayload, AuthInfo } from '../types'
 import { config } from '../config'
-
-const jwt_name_space = config.jwt_secret.claims_namespace || 'https://hasura.io/jwt/claims'
+import { getOrCreateAccount } from './prisma'
+import { randomUUID } from 'node:crypto'
+import _ from 'lodash'
 
 export const verifyToken = (token: string) => {
   if (!token) return new Error('Invalid token')
-
   let decoded_token
   try {
     decoded_token = verify(token, config.jwt_secret.key)
@@ -20,7 +20,6 @@ export const verifyToken = (token: string) => {
 
 export const getRefreshToken = (token: string, session) => {
   if (!token) return new Error('Invalid token')
-
   try {
     verify(token, config.jwt_secret.key)
   } catch (error) {
@@ -30,44 +29,40 @@ export const getRefreshToken = (token: string, session) => {
     algorithm: config.jwt_secret.type,
     expiresIn: config.jwt_token_expiration,
   })
-
   return new_token
 }
 
-const getNormalizedUser = async ({ username, address, auth_method }: TokenUserInfo) => {
-  // Here we can perfome validations but right now it is very simple
-  const user = { username, address, auth_method }
-  return user
-}
+// https://hasura.io/docs/latest/auth/authentication/jwt/
+export const getTokenPayload = async (auth_info: AuthInfo): Promise<TokenPayload> => {
+  const account = await getOrCreateAccount(auth_info)
 
-// WIP: perform hasura claims please
-export const generateHasuraClaims = async ({
-  username,
-  address,
-  auth_method,
-}: TokenUserInfo): Promise<{
-  [key: string]: ClaimValueType
-}> => {
-  // At this moment we only support user role
-  // TODO: use claim mapping
-  // https://hasura.io/docs/latest/auth/authentication/jwt/
-  return {
-    'x-hasura-allowed-roles': ['user'],
-    'x-hasura-default-role': 'user',
-    'x-hasura-user-username': username,
-    'x-hasura-user-address': address,
-    'x-hasura-user-auth-method': auth_method,
+  console.log('=================> ', account)
+  const session_id = randomUUID()
+  const token_payload: TokenPayload = {
+    user: {
+      account_id: account.account_id,
+      session_id,
+      username: account.username,
+      auth_method: auth_info.login_method,
+      addresses: account.addresses.map((address) => _.omit(address, 'account_id')),
+    },
+    'https://hasura.io/jwt/claims': {
+      'x-hasura-allowed-roles': ['user'],
+      'x-hasura-default-role': 'user',
+      'x-hasura-user-account-id': account.account_id,
+      'x-hasura-user-username': account.username,
+      'x-hasura-user-auth-method': auth_info.login_method,
+    },
   }
+  return token_payload
 }
 
-export const getTokenSession = async (userTokenInfo: TokenUserInfo) => {
+export const getTokenSession = async (auth_info: AuthInfo) => {
   try {
-    const normalized_user = await getNormalizedUser(userTokenInfo)
-    const hasura_claims_user_session = await generateHasuraClaims(userTokenInfo)
+    const token_payload = await getTokenPayload(auth_info)
     const token = sign(
       {
-        user: normalized_user,
-        [jwt_name_space]: hasura_claims_user_session,
+        ...token_payload,
       },
       config.jwt_secret.key,
       {
