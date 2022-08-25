@@ -7,10 +7,9 @@ import bs58 from 'bs58'
 
 const router = express.Router()
 
-router.post('/provider/phantom', async (req, res, next) => {
+router.post('/provider/solana', async (req, res, next) => {
   try {
-    console.log('/provider/phantom')
-    // TODO: fix me validate body
+    console.log('/provider/solana')
     const { address, signed_message, message } = req.body
     const is_valid_signed_message = nacl.sign.detached.verify(
       new TextEncoder().encode(message),
@@ -22,7 +21,7 @@ router.post('/provider/phantom', async (req, res, next) => {
 
     const token = await getTokenSession({
       login_address: address,
-      auth_method: 'web3_solana',
+      login_method: 'web3_solana',
     })
     return res.send({
       token: token,
