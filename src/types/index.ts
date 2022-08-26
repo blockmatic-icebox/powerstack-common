@@ -5,7 +5,7 @@ export type Address = string
 export type AuthMethod =
   | 'web2_twitter'
   | 'web3_solana'
-  | 'web3_anchor'
+  | 'web3_antelope'
   | 'web3_metamask'
   | 'web3_auth'
 
