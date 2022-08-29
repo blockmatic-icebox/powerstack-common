@@ -6,8 +6,9 @@ const router = express.Router()
 
 router.post('/provider/evm', async (req, res, next) => {
   try {
-    console.log('/provider/evm')
-    const { address: user_address, signed_message, message, auth_method } = req.body
+    // keep this just for some time @rubenanbix
+    console.log('/provider/evm', { body: req.body })
+    const { address: user_address, signed_message, message, auth_method, network } = req.body
     if (auth_method !== 'web3_metamask' && auth_method !== 'web3_auth')
       return res.status(401).send({ token: null, error: 'Invalid login method' })
 
@@ -19,6 +20,7 @@ router.post('/provider/evm', async (req, res, next) => {
     const token = await getTokenSession({
       login_address: user_address,
       login_method: auth_method,
+      login_network: network === 'homestead' ? 'ethereum' : network,
     })
     return res.send({
       token: token,
